@@ -696,13 +696,13 @@ static std::string getWorkspaceRuleData(const Config::CWorkspaceRule& r, eHyprCt
 
 static std::string activeWorkspaceRequest(eHyprCtlOutputFormat format, std::string request) {
     if (!Desktop::focusState()->monitor())
-        return "unsafe state";
+        return format == eHyprCtlOutputFormat::FORMAT_JSON ? "{}" : "unsafe state";
 
     std::string result = "";
     auto        w      = Desktop::focusState()->monitor()->m_activeWorkspace;
 
     if (!valid(w))
-        return "internal error";
+        return format == eHyprCtlOutputFormat::FORMAT_JSON ? "{}" : "internal error";
 
     return CCommandFormatter::getWorkspaceData(w, format);
 }
